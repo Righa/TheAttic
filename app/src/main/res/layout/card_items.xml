@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView android:layout_height="wrap_content"
+<androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp"
@@ -19,6 +20,7 @@
                 android:id="@+id/relativeLayout1"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
+                android:layout_margin="3dp"
                 android:background="@drawable/circular_bordershape">
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView"
@@ -46,6 +48,8 @@
                 android:textSize="12sp"
                 android:fontFamily="serif"
                 android:gravity="end"
+                android:padding="1dp"
+                android:layout_marginStart="12dp"
                 android:textStyle="bold"
                 android:textColor="#ffffff"/>
 
@@ -56,9 +60,11 @@
                 android:layout_below="@id/post_user"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
-                android:layout_toRightOf="@id/relativeLayout1"
+                android:layout_toEndOf="@id/relativeLayout1"
                 android:text="time"
-                android:textColor="#ffffff" />
+                android:textSize="9sp"
+                android:textColor="#ffffff"
+                tools:ignore="SmallSp" />
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
@@ -66,9 +72,11 @@
                 android:layout_below="@id/post_user"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
-                android:layout_toRightOf="@id/time"
+                android:layout_toEndOf="@id/time"
+                android:textSize="9sp"
                 android:text="date"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                tools:ignore="SmallSp" />
 
 
         </RelativeLayout>
@@ -98,7 +106,8 @@
             <TextView
                 android:id="@+id/post_desc_txtview"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="50dp"
                 android:layout_margin="5dp"
                 android:textColor="#ffffff"
                 android:text="Post Description"/>

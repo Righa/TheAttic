@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "551899226363-f0a212vbrhjos45nqi25iab3bjge9b5e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.theattic",
+            "certificate_hash": "d6d33d075660dc9ae9e418e74c33b70260dfbc68"
+          }
+        },
+        {
           "client_id": "551899226363-k3scfho1qu5030pam1r12p0shlts1gvl.apps.googleusercontent.com",
           "client_type": 3
         }

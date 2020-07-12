@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     //Create a snapshot of your model
                     public Attic parseSnapshot(@NonNull DataSnapshot snapshot) {
-                        return new Attic(snapshot.child("title").getValue().toString(),
+                        return new Attic(
+                                snapshot.child("title").getValue().toString(),
                                 snapshot.child("desc").getValue().toString(),
                                 snapshot.child("postImage").getValue().toString(),
                                 snapshot.child("displayName").getValue().toString(),

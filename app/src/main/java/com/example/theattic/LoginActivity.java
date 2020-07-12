@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "PROCESSING....",
                         Toast.LENGTH_LONG).show();
                 // get the email and password entered by the user
-                String email = loginEmail.getText().toString().trim();
+                final String email = loginEmail.getText().toString().trim();
                 String password = loginPass.getText().toString().trim();
                 if (!TextUtils.isEmpty(email)&& !TextUtils.isEmpty(password)){
                     // use firebase authentication instance you create and call the method
@@ -73,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                                // database reference
                                 checkUserExistence();
                             }else {
+                                Log.w("MI TAG OH", "signInWithEmail:failure", task.getException());
                                 //if the user does not exist in the database reference throw a toast
                                 Toast.makeText(LoginActivity.this, "Couldn't login, User not found", Toast.LENGTH_SHORT).show();
                             }
@@ -91,14 +93,12 @@ public class LoginActivity extends AppCompatActivity {
     public void checkUserExistence(){
         //check the user existence of the user using the user id in users database reference
         final String user_id = mAuth.getCurrentUser().getUid();
-        Toast.makeText(LoginActivity.this, user_id, Toast.LENGTH_SHORT).show();
 //call the method addValueEventListener on the database reference of the user to determine
         //if the current userID supplied exists in our database reference
         mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //get a dataSnapshot of the users database reference to determine if current user exists
-                Toast.makeText(LoginActivity.this, "on data change!", Toast.LENGTH_SHORT).show();
                 if (dataSnapshot.hasChild(user_id)){
                     //if the users exists direct the user to the Main Activity
                     Intent mainPage = new Intent(LoginActivity.this, MainActivity.class);
@@ -109,7 +109,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(LoginActivity.this, "Database error", Toast.LENGTH_SHORT).show();
+                Log.w("MI_____________TAG OH", String.valueOf(databaseError));
             }
         });
     }

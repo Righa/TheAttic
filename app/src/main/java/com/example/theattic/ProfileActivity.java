@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -122,7 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     //add the profilePhoto and displayName for the current user
-                                                    mDatabaseUser.child(" displayName").setValue(name);
+                                                    mDatabaseUser.child("displayName").setValue(name);
                                                     mDatabaseUser.child("profilePhoto").setValue(profileImage).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
@@ -133,12 +134,17 @@ public class ProfileActivity extends AppCompatActivity {
                                                                 Intent login = new Intent(ProfileActivity.this, LoginActivity.class);
                                                                 startActivity(login);
                                                             }
+                                                            else {
+                                                                Log.w("Mi______________TAG OH", task.getException());
+                                                            }
                                                         }
                                                     });
                                                 }
 
                                                 @Override
                                                 public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                    Toast.makeText(ProfileActivity.this, "Database Error!", Toast.LENGTH_SHORT).show();
+                                                    Log.w("MI__________TAG OH", String.valueOf(databaseError));
                                                 }
                                             });
                                         }

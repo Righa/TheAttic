@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -94,23 +96,29 @@ public class RegisterActivity extends AppCompatActivity {
                     mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            //override the onComplete method where we’ll store this registered user on our database
-                            //with respect to their unique id’s.
-                            // Create a string variable to get the user id of currently registered user
-                            String user_id = mAuth.getCurrentUser().getUid();
-                           
-                            //create a child node database reference to attach the user_id to the users node
-                            DatabaseReference current_user_db = userDetailsReference.child(user_id);
-                            // set the Username and Image on the users' unique path (current_users_db).
-                            current_user_db.child("Username").setValue(username);
-                            current_user_db.child("Image").setValue("Default");
-                            // make a Toast to show the user that they’ve been successfully registered and then
-                            Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                            //Create Profile Activity using empty activity template
-                            // launch the Profile activity for user to set their preferred profile
-                            Intent profIntent = new Intent(RegisterActivity.this, ProfileActivity.class);
-                            profIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(profIntent);
+                            if (task.isSuccessful()){
+                                //override the onComplete method where we’ll store this registered user on our database
+                                //with respect to their unique id’s.
+                                // Create a string variable to get the user id of currently registered user
+                                String user_id = mAuth.getCurrentUser().getUid();
+                                //create a child node database reference to attach the user_id to the users node
+                                DatabaseReference current_user_db = userDetailsReference.child(user_id);
+
+                                // set the Username and Image on the users' unique path (current_users_db).
+                                current_user_db.child("Username").setValue(username);
+                                current_user_db.child("Image").setValue("Default");
+                                // make a Toast to show the user that they’ve been successfully registered and then
+                                //Create Profile Activity using empty activity template
+                                Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                Intent profIntent = new Intent(RegisterActivity.this, ProfileActivity.class);
+                                profIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                // launch the Profile activity for user to set their preferred profile
+                                startActivity(profIntent);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("ME TAG O:", "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(RegisterActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 } else {
